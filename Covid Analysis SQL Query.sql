@@ -153,3 +153,26 @@ ORDER BY 2,3
 SELECT *, (RollingPeopleVaccinated/Population)*100 AS PercentagePopVac
 FROM #PercentTotalVaccinated
 
+-- Creating View to store data for later visualizations
+
+Create View PercentagePopulationVaccinated as
+Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(vac.new_vaccinations) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
+--, (RollingPeopleVaccinated/population)*100
+FROM PortfolioProject.dbo.CovidDeaths as dea
+JOIN PortfolioProject.dbo.CovidVaccination as vac
+	ON dea.location = vac.location
+	AND dea.date = vac.date
+where dea.continent is not null
+
+Create View PercentageDeath as
+SELECT location,date,total_cases,total_deaths,(total_deaths/total_cases)*100 as DeathPercentage
+FROM PortfolioProject.dbo.CovidDeaths
+--WHERE location='United States' 
+WHERE continent is not null
+
+SELECT location,DeathPercentage
+FROM PercentageDeath
+
+
+
