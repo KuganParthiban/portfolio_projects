@@ -25,9 +25,9 @@ FROM PortfolioProject.dbo.CovidDeaths
 WHERE location='United States'
 ORDER BY 1,2 
 
-
 -- Looking at the Total Cases vs Population
 -- Shows what percentage of population got Covid
+
 SELECT location,date,population,total_cases,(total_cases/population)*100 as PopulationPercentage
 FROM PortfolioProject.dbo.CovidDeaths
 WHERE location='United States'
@@ -40,11 +40,6 @@ FROM PortfolioProject.dbo.CovidDeaths
 -- WHERE location='United States'
 GROUP BY location, population
 ORDER BY PercentPopulationInfected desc
-
-
-
-
-
 
 
 --showing the countries with the highest death count per population
